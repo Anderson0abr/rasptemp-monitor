@@ -1,5 +1,7 @@
+from pushover import apikey, userkey
+from time import sleep
 import os
-import time
+import requests
 
 
 def measure_temp():
@@ -7,7 +9,19 @@ def measure_temp():
     return float(temp[5:-3])
 
 
+def notify(title, message):
+    url = 'https://api.pushover.net/1/messages.json'
+    data = {
+            'token': apikey,
+            'user': userkey,
+            'title': title,
+            'message': message
+            }
+    requests.post(url, data)
+
+
 while True:
     if measure_temp() >= 85:
+        notify("Raspberry Pi", "Temperature exceeded. Shutting down...")
         os.popen("shutdown now")
-    time.sleep(10)
+    sleep(10)
