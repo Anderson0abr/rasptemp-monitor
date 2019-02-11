@@ -22,6 +22,9 @@ def notify(title, message):
 
 while True:
     if measure_temp() >= 85:
-        notify("Raspberry Pi", "Temperature exceeded. Shutting down...")
+        try:
+            notify("Raspberry Pi", "Temperature limit exceeded. Shutting down...")
+        except:
+            pass
         os.popen("shutdown now")
     sleep(10)
